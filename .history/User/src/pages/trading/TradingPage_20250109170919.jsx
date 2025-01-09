@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { CircularProgress, FormControlLabel, Switch, Grid, Box } from '@mui/material';
 import TradingViewChart from '../../components/TradingViewChart';
 import WatchList from '../../components/WatchList';
@@ -42,19 +42,6 @@ const TradingPage = ({
   marginUsed,
   marginAvailable
 }) => {
-  // New state variables for adjustable inputs
-  const [pipCount, setPipCount] = useState('');
-  const [percentageLoss, setPercentageLoss] = useState('');
-  const [price, setPrice] = useState('');
-  const [isPriceOverridden, setIsPriceOverridden] = useState(false);
-
-  useEffect(() => {
-    if (!isPriceOverridden && selectedSymbol) {
-      const currentPrice = ask[getBidIndex(selectedSymbol)];
-      setPrice(currentPrice);
-    }
-  }, [ask, selectedSymbol, isPriceOverridden]);
-
   return (
     <>
       {loading ? (
@@ -63,23 +50,9 @@ const TradingPage = ({
         </div>
       ) : (
         <div>
-          <div
-            style={{
-              height: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
+          <div style={{ height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <p className="text-white m-6">Laser Trader</p>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px',
-                marginRight: '20px'
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginRight: '20px' }}>
               <FormControlLabel
                 control={
                   <Switch
@@ -129,7 +102,7 @@ const TradingPage = ({
                   <Grid
                     item
                     xs={4}
-                    sx={{ display: 'flex', flexDirection: 'column' }}
+                    sx={{ display: 'flex', flexDirection: 'column', flex: '' }}
                   >
                     <Item sx={{ height: '80%' }} p={5}>
                       <WatchList
@@ -237,107 +210,46 @@ const TradingPage = ({
                             </button>
                           </div>
                         </div>
+                        <div className="flex space-x-2">
+                          <button
+                            className="rounded-lg"
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'white',
+                              padding: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>Stop Loss</p>
+                            <input
+                              type="checkbox"
+                              style={{ width: 'fit-content' }}
+                            />
+                          </button>
 
-                        {/* Adjustable Inputs */}
-                        <div className="adjustable-inputs-container">
-                          <div className="adjustable-input">
-                            <label
-                              htmlFor="balance-input"
-                              style={{ color: 'white' }}
-                            >
-                              Balance:
-                            </label>
+                          {/* Take Profit input */}
+                          <button
+                            className="rounded-lg"
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'white',
+                              padding: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>Take Profit</p>
                             <input
-                              type="number"
-                              id="balance-input"
-                              value={balance}
-                              onChange={(e) => setBalance(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
+                              type="checkbox"
+                              style={{ width: 'fit-content' }}
                             />
-                          </div>
-                          <div className="adjustable-input">
-                            <label
-                              htmlFor="pip-count-input"
-                              style={{ color: 'white' }}
-                            >
-                              Pip Count:
-                            </label>
-                            <input
-                              type="number"
-                              id="pip-count-input"
-                              value={pipCount}
-                              onChange={(e) => setPipCount(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
-                            />
-                          </div>
-                          <div className="adjustable-input">
-                            <label
-                              htmlFor="percentage-loss-input"
-                              style={{ color: 'white' }}
-                            >
-                              Percentage Loss:
-                            </label>
-                            <input
-                              type="number"
-                              id="percentage-loss-input"
-                              value={percentageLoss}
-                              onChange={(e) =>
-                                setPercentageLoss(e.target.value)
-                              }
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
-                            />
-                          </div>
-                          <div className="adjustable-input">
-                            <label
-                              htmlFor="price-input"
-                              style={{ color: 'white' }}
-                            >
-                              Price:
-                            </label>
-                            <input
-                              type="number"
-                              id="price-input"
-                              value={price}
-                              onFocus={() => setIsPriceOverridden(true)}
-                              onBlur={() => {
-                                if (
-                                  price === '' ||
-                                  price === ask[getBidIndex(selectedSymbol)]
-                                ) {
-                                  setIsPriceOverridden(false);
-                                }
-                              }}
-                              onChange={(e) => setPrice(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
-                            />
-                          </div>
+                          </button>
                         </div>
-
-                        {/* Rest of the trading interface remains unchanged */}
                         <div
                           style={{
                             display: 'flex',
@@ -383,8 +295,162 @@ const TradingPage = ({
                             </p>
                           </button>
                         </div>
-                        {/* Additional trading details and components... */}
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            borderRadius: '10px',
+                            marginTop: '3px',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>
+                              {calculateProfit(
+                                ask[getBidIndex(selectedSymbol)],
+                                bid[getBidIndex(selectedSymbol)],
+                                10
+                              ).toFixed(4)}
+                            </p>
+                          </button>
+                          <p style={{ fontSize: '12px', color: 'white' }}>
+                            P&L
+                          </p>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>
+                              {calculateLoss(
+                                ask[getBidIndex(selectedSymbol)],
+                                bid[getBidIndex(selectedSymbol)],
+                                10
+                              ).toFixed(4)}
+                            </p>
+                          </button>
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            borderRadius: '10px',
+                            marginTop: '3px',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>
+                              {(
+                                (ask[getBidIndex(selectedSymbol)] -
+                                  bid[getBidIndex(selectedSymbol)]) /
+                                2
+                              ).toFixed(6)}
+                            </p>
+                          </button>
+                          <p style={{ fontSize: '12px', color: 'white' }}>
+                            Ticks
+                          </p>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>
+                              {(
+                                (ask[getBidIndex(selectedSymbol)] -
+                                  bid[getBidIndex(selectedSymbol)]) /
+                                2
+                              ).toFixed(6)}
+                            </p>
+                          </button>
+                        </div>
+                        <div
+                          style={{
+                            display: 'flex',
+                            gap: '15px',
+                            borderRadius: '10px',
+                            marginTop: '3px',
+                            width: '100%',
+                            justifyContent: 'space-between',
+                            alignItems: 'center'
+                          }}
+                        >
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>{balance}</p>
+                          </button>
+                          <p style={{ fontSize: '12px', color: 'white' }}>
+                            Balance
+                          </p>
+                          <button
+                            style={{
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                              backgroundColor: '#171b25',
+                              color: 'grey',
+                              padding: '10px',
+                              borderRadius: '10px',
+                              width: '100%'
+                            }}
+                          >
+                            <p>{balance}</p>
+                          </button>
+                        </div>
                       </div>
+
+                      {/* Stop Loss input */}
                     </Item>
                   </Grid>
                 </Grid>

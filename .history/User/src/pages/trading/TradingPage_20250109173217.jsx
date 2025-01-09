@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CircularProgress, FormControlLabel, Switch, Grid, Box } from '@mui/material';
 import TradingViewChart from '../../components/TradingViewChart';
 import WatchList from '../../components/WatchList';
@@ -46,14 +46,6 @@ const TradingPage = ({
   const [pipCount, setPipCount] = useState('');
   const [percentageLoss, setPercentageLoss] = useState('');
   const [price, setPrice] = useState('');
-  const [isPriceOverridden, setIsPriceOverridden] = useState(false);
-
-  useEffect(() => {
-    if (!isPriceOverridden && selectedSymbol) {
-      const currentPrice = ask[getBidIndex(selectedSymbol)];
-      setPrice(currentPrice);
-    }
-  }, [ask, selectedSymbol, isPriceOverridden]);
 
   return (
     <>
@@ -63,23 +55,9 @@ const TradingPage = ({
         </div>
       ) : (
         <div>
-          <div
-            style={{
-              height: '50px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between'
-            }}
-          >
+          <div style={{ height: '50px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <p className="text-white m-6">Laser Trader</p>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '20px',
-                marginRight: '20px'
-              }}
-            >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px', marginRight: '20px' }}>
               <FormControlLabel
                 control={
                   <Switch
@@ -241,98 +219,43 @@ const TradingPage = ({
                         {/* Adjustable Inputs */}
                         <div className="adjustable-inputs-container">
                           <div className="adjustable-input">
-                            <label
-                              htmlFor="balance-input"
-                              style={{ color: 'white' }}
-                            >
-                              Balance:
-                            </label>
+                            <label htmlFor="balance-input" style={{ color: 'white' }}>Balance:</label>
                             <input
                               type="number"
                               id="balance-input"
                               value={balance}
                               onChange={(e) => setBalance(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
+                              style={{ backgroundColor: '#171b25', color: 'white', padding: '10px', borderRadius: '5px', width: '100%' }}
                             />
                           </div>
                           <div className="adjustable-input">
-                            <label
-                              htmlFor="pip-count-input"
-                              style={{ color: 'white' }}
-                            >
-                              Pip Count:
-                            </label>
+                            <label htmlFor="pip-count-input" style={{ color: 'white' }}>Pip Count:</label>
                             <input
                               type="number"
                               id="pip-count-input"
                               value={pipCount}
                               onChange={(e) => setPipCount(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
+                              style={{ backgroundColor: '#171b25', color: 'white', padding: '10px', borderRadius: '5px', width: '100%' }}
                             />
                           </div>
                           <div className="adjustable-input">
-                            <label
-                              htmlFor="percentage-loss-input"
-                              style={{ color: 'white' }}
-                            >
-                              Percentage Loss:
-                            </label>
+                            <label htmlFor="percentage-loss-input" style={{ color: 'white' }}>Percentage Loss:</label>
                             <input
                               type="number"
                               id="percentage-loss-input"
                               value={percentageLoss}
-                              onChange={(e) =>
-                                setPercentageLoss(e.target.value)
-                              }
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
+                              onChange={(e) => setPercentageLoss(e.target.value)}
+                              style={{ backgroundColor: '#171b25', color: 'white', padding: '10px', borderRadius: '5px', width: '100%' }}
                             />
                           </div>
                           <div className="adjustable-input">
-                            <label
-                              htmlFor="price-input"
-                              style={{ color: 'white' }}
-                            >
-                              Price:
-                            </label>
+                            <label htmlFor="price-input" style={{ color: 'white' }}>Price:</label>
                             <input
                               type="number"
                               id="price-input"
                               value={price}
-                              onFocus={() => setIsPriceOverridden(true)}
-                              onBlur={() => {
-                                if (
-                                  price === '' ||
-                                  price === ask[getBidIndex(selectedSymbol)]
-                                ) {
-                                  setIsPriceOverridden(false);
-                                }
-                              }}
                               onChange={(e) => setPrice(e.target.value)}
-                              style={{
-                                backgroundColor: '#171b25',
-                                color: 'white',
-                                padding: '10px',
-                                borderRadius: '5px',
-                                width: '100%'
-                              }}
+                              style={{ backgroundColor: '#171b25', color: 'white', padding: '10px', borderRadius: '5px', width: '100%' }}
                             />
                           </div>
                         </div>

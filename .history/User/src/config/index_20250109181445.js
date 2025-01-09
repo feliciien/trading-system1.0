@@ -6,6 +6,6 @@ if (process.env.REACT_APP_NODE_ENV !== 'production') {
     }
 } else {
     module.exports = {
-        BackendEndpoint: "/api"
+        BackendEndpoint: "https://your-heroku-app.herokuapp.com/api"
     }
 }
